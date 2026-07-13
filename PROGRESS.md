@@ -48,6 +48,8 @@ client = model.get_chat_client()
 
 ## Knowledge Base Expansion — 2026 Regulation Detail
 
+!! made app.py using streamlit open source framework of python ( it lets to make web applications using only python) to make an f1 dashboard instead of using HTML and CSS and javascript 
+
 Added 2 more docs (doc8, doc9) covering specifics beyond the basics:
 - doc8.txt — 2026 tyre changes (5 compounds instead of 6, narrower tyres, rim freedom)
 - doc9.txt — qualifying format changes for 11 teams, fastest lap point removal, mirror safety lights
