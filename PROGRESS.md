@@ -48,9 +48,17 @@ client = model.get_chat_client()
 
 ## Week 4 — LLM Integration + CLI - Not started
 
-- [ ] `answer_query()` — combine retrieved chunks + chat model into one real answer
-- [ ] System prompt: answer only from context, say "I don't know" if not found, cite source
-- [ ] Interactive CLI loop in `main.py`
+## Week 4 — LLM Integration + CLI ✅ Done
+
+- `qa.py` — `answer_query()` combines retrieved chunks + chat model into one real answer
+- System prompt: answer only from context, say "I don't know" if not found, cite source
+- Interactive CLI loop in `main.py` (`python main.py`, or `python main.py ask "..."` for one-off questions)
+- Tested: complex multi-doc questions get correctly combined answers with citations
+- Tested: unrelated/unanswerable questions correctly get "I don't have that information"
+
+**Known limitation:** `get_top_chunks()` always returns the closest chunks it can find, even when nothing is actually relevant. So on "I don't know" answers, it still shows retrieved/cited docs that don't really apply (for example asking about a driver's salary still cites F1 cost-cap docs). Not wrong, just slightly misleading.
+
+**Possible fix (Week 5 stretch goal):** add a similarity score threshold — if nothing scores above it, retrieve nothing at all instead of forcing a "best guess" match.
 
 ## Week 5 — Testing - Not started
 
