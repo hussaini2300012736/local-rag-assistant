@@ -46,7 +46,16 @@ client = model.get_chat_client()
 
 ---
 
-## Week 4 — LLM Integration + CLI - Not started
+## Knowledge Base Expansion — 2026 Regulation Detail
+
+Added 2 more docs (doc8, doc9) covering specifics beyond the basics:
+- doc8.txt — 2026 tyre changes (5 compounds instead of 6, narrower tyres, rim freedom)
+- doc9.txt — qualifying format changes for 11 teams, fastest lap point removal, mirror safety lights
+
+Now 9 total documents in the knowledge base. Tested complex questions — correctly synthesizes across multiple docs with accurate citations.
+
+**Quirk found:** on "is there still X?" yes/no questions, the model sometimes says "I don't have that information" even when the retrieved context directly answers it (e.g. it correctly stated the fastest-lap point was removed, then contradicted itself by saying it didn't know if that's current). Grounding is working — it's not inventing anything — but it can misjudge whether retrieved context actually answers a yes/no question.
+**Possible fix:** tighten system prompt to explicitly handle yes/no questions first before elaborating.
 
 ## Week 4 — LLM Integration + CLI ✅ Done
 
