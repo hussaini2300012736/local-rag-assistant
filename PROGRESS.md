@@ -59,7 +59,7 @@ Now 9 total documents in the knowledge base. Tested complex questions — correc
 **Quirk found:** on "is there still X?" yes/no questions, the model sometimes says "I don't have that information" even when the retrieved context directly answers it (e.g. it correctly stated the fastest-lap point was removed, then contradicted itself by saying it didn't know if that's current). Grounding is working — it's not inventing anything — but it can misjudge whether retrieved context actually answers a yes/no question.
 **Possible fix:** tighten system prompt to explicitly handle yes/no questions first before elaborating.
 
-## Week 4 — LLM Integration + CLI ✅ Done
+## Week 4 — LLM Integration + CLI  Done
 
 - `qa.py` — `answer_query()` combines retrieved chunks + chat model into one real answer
 - System prompt: answer only from context, say "I don't know" if not found, cite source
@@ -71,10 +71,20 @@ Now 9 total documents in the knowledge base. Tested complex questions — correc
 
 **Possible fix (Week 5 stretch goal):** add a similarity score threshold — if nothing scores above it, retrieve nothing at all instead of forcing a "best guess" match.
 
-## Week 5 — Testing - Not started
+## Week 5 — Testing  Done
 
-- [ ] Write test cases (answerable + unanswerable questions)
-- [ ] Check response quality and timing
+- Wrote 6 automated test cases in `tests/test_pipeline.py`: 3 answerable, 3 unanswerable
+- Result: 6/6 passed
+- Timing: first question ~23s (model warm-up), subsequent questions 4-12s
+- **Lesson learned:** initial test script used exact string matching ("don't have that information") to detect declines, which gave 2 false failures — the model said "don't have information about X" instead, a valid rephrasing. Testing LLM output needs flexible matching (checking for a few decline phrases), not exact strings, since correct behavior can be worded multiple ways.
+
+**Known limitation carried over:** retrieval always returns closest chunks even when irrelevant (see Week 4 notes) — not yet fixed, still a stretch goal.
+
+## Performance Investigation
+
+Suspected slow first-question time was a caching bug (model reloading every call) — added client caching in `foundry_client.py`, but timings stayed identical, ruling that out. Added an explicit warm-up call before real questions instead: this isolated a genuine ~25s one-time cost (model's first inference after loading) into its own step. After warm-up, real per-question time is 4-12s, correlating with answer length/complexity.
+
+**Conclusion:** this is a hardware/model size constraint of running locally, not a code bug. Mitigation: load and warm up the model once at program start (already done in Week 4's `main.py`), not per question.
 
 ## Week 6 — Documentation & Presentation - Not started
 
