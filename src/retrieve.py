@@ -11,8 +11,8 @@ def cosine_similarity(a, b):
     return dot / (norm_a * norm_b)
 
 
-def get_top_chunks(query, top_k=3):
-    client = get_embedding_client()
+def get_top_chunks(query, client=None, top_k=3):
+    client = client or get_embedding_client()
     conn = db.get_connection()
     all_chunks = db.fetch_all_chunks(conn)
     conn.close()
@@ -27,7 +27,6 @@ def get_top_chunks(query, top_k=3):
     ]
     scored.sort(key=lambda x: x[0], reverse=True)
     return [{"score": s, **c} for s, c in scored[:top_k]]
-
 
 if __name__ == "__main__":
     import sys
